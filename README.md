@@ -37,3 +37,10 @@ A paper cup full of water sits in your cup holder. Drive smooth enough not to sp
 
 非公式のファンメイド作品です。原作・出版社・Kunos Simulazioni とは一切関係ありません。
 This is an unofficial fan-made app, not affiliated with the original manga, its publishers, or Kunos Simulazioni.
+
+## ライセンス / License
+
+[MIT License](LICENSE) © 2026 tndkn1
+
+ライセンスの対象は本リポジトリのコードのみです。原作に関する権利は各権利者に帰属します。
+The license covers the code in this repository only. All rights to the original work belong to their respective owners.
