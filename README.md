@@ -3,9 +3,12 @@
 カップホルダーに水を入れた紙コップを置いて、こぼさずに走れるか。
 あの峠の豆腐屋の修行を Assetto Corsa で再現する CSP Lua アプリです。
 
-A paper cup full of water sits in your cup holder. Drive smooth enough not to spill it.
+A paper cup full of water sits in your cup holder — can you drive without spilling it?
+A CSP Lua app for Assetto Corsa that recreates the famous mountain-pass tofu-delivery training.
 
 ## 特徴 / Features
+
+**日本語**
 
 - 車の前後・横 G から水面の揺れ（スロッシング）を物理的にシミュレート
   - 円筒容器の一次スロッシングモード（約 3.6 Hz）を減衰振動として計算
@@ -15,6 +18,16 @@ A paper cup full of water sits in your cup holder. Drive smooth enough not to sp
 - こぼれた量 (ml)、こぼした回数、走行距離を表示
 - 設定: 3D/2D 表示、水面とフチの余裕 (mm)、揺れの減衰、**Bunta モード**（1 回こぼしたら終了）、軸反転
 
+**English**
+
+- Physically simulates water sloshing from the car's longitudinal and lateral G
+  - The first sloshing mode of a cylindrical container (about 3.6 Hz) is modelled as a damped oscillator
+  - Not just how much G you pull, but **how abruptly** you apply inputs makes the water overshoot and spill
+- Cup view can be switched in settings between **3D** (looking down from the driver's seat, shows both longitudinal and lateral tilt; default) and **2D** (side view)
+- Top-view gauge (water spills when the dot leaves the circle)
+- Shows spilled amount (ml), number of spills, and distance driven
+- Settings: 3D/2D view, gap between water and rim (mm), slosh damping, **Bunta mode** (one spill ends the run), axis inversion
+
 ## 参考動画 / Reference video
 
 - https://www.youtube.com/live/rH3_DwHWyYc
@@ -22,24 +35,42 @@ A paper cup full of water sits in your cup holder. Drive smooth enough not to sp
 ## 動作環境 / Requirements
 
 - Assetto Corsa
-- [Custom Shaders Patch (CSP)](https://acstuff.club/patch/)（最新版推奨）
+- [Custom Shaders Patch (CSP)](https://acstuff.club/patch/)（最新版推奨 / latest version recommended）
 
 ## インストール / Install
+
+**日本語**
 
 1. このリポジトリの `apps` フォルダを Assetto Corsa のインストールフォルダ
    （例: `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`）にコピー
    → `assettocorsa\apps\lua\WaterCup\` ができれば OK
 2. ゲーム内で右側のアプリバーから **Water Cup** を開く
 
+**English**
+
+1. Copy the `apps` folder of this repository into your Assetto Corsa install folder
+   (e.g. `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`)
+   → you should end up with `assettocorsa\apps\lua\WaterCup\`
+2. In game, open **Water Cup** from the app bar on the right
+
 ## 使い方 / Usage
+
+**日本語**
 
 - 走るだけ。上面ゲージの点が外側の円に触れるとこぼれます。
 - ウィンドウの歯車アイコンから設定、`Refill cup / reset` で水を入れ直し。
 - 左コーナーで水が左に寄るなど向きが逆に見える場合は `Invert lateral axis` を ON に。
 
+**English**
+
+- Just drive. Water spills when the dot on the top-view gauge touches the outer circle.
+- Open settings with the gear icon on the window; use `Refill cup / reset` to refill the cup.
+- If the water moves the wrong way (e.g. it shifts left in a left-hand corner), turn on `Invert lateral axis`.
+
 ## 免責 / Disclaimer
 
 非公式のファンメイド作品です。原作・出版社・Kunos Simulazioni とは一切関係ありません。
+
 This is an unofficial fan-made app, not affiliated with the original manga, its publishers, or Kunos Simulazioni.
 
 ## ライセンス / License
@@ -47,4 +78,5 @@ This is an unofficial fan-made app, not affiliated with the original manga, its 
 [MIT License](LICENSE) © 2026 tndkn1
 
 ライセンスの対象は本リポジトリのコードのみです。原作に関する権利は各権利者に帰属します。
+
 The license covers the code in this repository only. All rights to the original work belong to their respective owners.
