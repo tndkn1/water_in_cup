@@ -15,6 +15,10 @@ A paper cup full of water sits in your cup holder. Drive smooth enough not to sp
 - こぼれた量 (ml)、こぼした回数、走行距離を表示
 - 設定: 3D/2D 表示、水面とフチの余裕 (mm)、揺れの減衰、**Bunta モード**（1 回こぼしたら終了）、軸反転
 
+## 参考動画 / Reference video
+
+- https://www.youtube.com/live/rH3_DwHWyYc
+
 ## 動作環境 / Requirements
 
 - Assetto Corsa
