@@ -20,8 +20,12 @@ local settings = ac.storage({
   damping = 0.06,   -- damping ratio of the slosh mode
   invertX = false,
   invertZ = false,
-  buntaMode = false -- a single spill ends the run
+  buntaMode = false, -- a single spill ends the run
+  view3D = true
 })
+
+local VIEW_ELEV = math.rad(35) -- 3D view: camera pitch, looking forward and down like the driver
+local RING = 48
 
 local level, slope, slopeVel
 local spilledMl, spillEvents, distance
@@ -44,12 +48,14 @@ local function levelToMl(h)
   return h * math.pi * R_PHYS * R_PHYS * 1e6
 end
 
-local function spawnDroplets(side, amount)
+-- phi: direction (in the cup's horizontal plane) where the water goes over the rim.
+local function spawnDroplets(phi, amount)
   for _ = 1, math.min(6, math.ceil(amount * 3)) do
+    local speed = 40 + math.random() * 80
     particles[#particles + 1] = {
-      side = side,
+      phi = phi,
       x = 0, y = 0,
-      vx = side * (40 + math.random() * 80),
+      vx = math.cos(phi) * speed,
       vy = -(30 + math.random() * 90),
       life = 0.8
     }
@@ -86,8 +92,7 @@ local function physicsStep(dt, ax, az)
       spilling = true
       spillEvents = spillEvents + 1
       flash = 1
-      local side = slope.x >= 0 and 1 or -1
-      spawnDroplets(side, excess * 1000)
+      spawnDroplets(math.atan2(slope.y, slope.x), excess * 1000)
       if settings.buntaMode then gameOver = true end
     end
   elseif excess < -0.0005 then
@@ -154,7 +159,85 @@ local function drawCup(origin, scale)
   ui.drawLine(P(-R_TOP - 0.002, CUP_H), P(R_TOP + 0.002, CUP_H), colCupLine, 5)
 
   for _, p in ipairs(particles) do
-    local base = P(p.side * R_TOP, CUP_H)
+    local base = P((math.cos(p.phi) >= 0 and 1 or -1) * R_TOP, CUP_H)
+    ui.drawCircleFilled(vec2(base.x + p.x, base.y + p.y), 3, colWater)
+  end
+end
+
+local colWaterSide = rgbm(0.2, 0.45, 0.85, 0.9)
+
+local function wallRadius(h) return R_BOT + (R_TOP - R_BOT) * h / CUP_H end
+
+local function convexHull(pts)
+  table.sort(pts, function(a, b) return a.x < b.x or (a.x == b.x and a.y < b.y) end)
+  local function cross(o, a, b) return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x) end
+  local lower, upper = {}, {}
+  for _, p in ipairs(pts) do
+    while #lower >= 2 and cross(lower[#lower - 1], lower[#lower], p) <= 0 do table.remove(lower) end
+    lower[#lower + 1] = p
+  end
+  for i = #pts, 1, -1 do
+    local p = pts[i]
+    while #upper >= 2 and cross(upper[#upper - 1], upper[#upper], p) <= 0 do table.remove(upper) end
+    upper[#upper + 1] = p
+  end
+  table.remove(lower)
+  table.remove(upper)
+  for _, p in ipairs(upper) do lower[#lower + 1] = p end
+  return lower
+end
+
+local function strokePath(pts, color, thickness)
+  for _, p in ipairs(pts) do ui.pathLineTo(p) end
+  ui.pathStroke(color, true, thickness)
+end
+
+-- Orthographic view from behind and above the cup. x = car right, z = car forward,
+-- origin = screen position of the cup's bottom centre.
+local function drawCup3D(origin, scale)
+  local cosE, sinE = math.cos(VIEW_ELEV), math.sin(VIEW_ELEV)
+  local function P(x, h, z) return vec2(origin.x + x * scale, origin.y - (h * cosE + z * sinE) * scale) end
+
+  -- Water/wall contact line: solve h = level + m * wallRadius(h) at each angle.
+  local taper = (R_TOP - R_BOT) / CUP_H
+  local bottom, rim, contact, front = {}, {}, {}, {}
+  for i = 1, RING do
+    local t = (i - 1) / RING * 2 * math.pi
+    local ct, st = math.cos(t), math.sin(t)
+    local m = slope.x * ct + slope.y * st
+    local h = clamp((level + m * R_BOT) / math.max(1 - m * taper, 0.05), 0, CUP_H)
+    local r = wallRadius(h)
+    bottom[i] = P(R_BOT * ct, 0, R_BOT * st)
+    rim[i] = P(R_TOP * ct, CUP_H, R_TOP * st)
+    contact[i] = P(r * ct, h, r * st)
+    front[i] = math.sin(t + math.pi / RING) < 0
+  end
+
+  local all = {}
+  for i = 1, RING do all[#all + 1] = bottom[i]; all[#all + 1] = rim[i] end
+  local hull = convexHull(all)
+  for _, p in ipairs(hull) do ui.pathLineTo(p) end
+  ui.pathFillConvex(colCupFill)
+
+  for i = 1, RING do
+    if front[i] then
+      local j = i % RING + 1
+      ui.pathLineTo(bottom[i])
+      ui.pathLineTo(bottom[j])
+      ui.pathLineTo(contact[j])
+      ui.pathLineTo(contact[i])
+      ui.pathFillConvex(colWaterSide)
+    end
+  end
+  for _, p in ipairs(contact) do ui.pathLineTo(p) end
+  ui.pathFillConvex(colWater)
+  strokePath(contact, colSurface, 1.5)
+
+  strokePath(hull, colCupLine, 2)
+  strokePath(rim, colCupLine, 3)
+
+  for _, p in ipairs(particles) do
+    local base = P(R_TOP * math.cos(p.phi), CUP_H, R_TOP * math.sin(p.phi))
     ui.drawCircleFilled(vec2(base.x + p.x, base.y + p.y), 3, colWater)
   end
 end
@@ -178,10 +261,18 @@ local function draw(dt)
     ui.drawRectFilled(vec2(0, 0), size, rgbm(1, 0.1, 0.1, 0.25 * flash))
   end
 
-  local scale = math.min((size.x - 40) / (2 * R_TOP), (size.y - 170) / CUP_H)
-  drawCup(vec2(size.x / 2, 30 + CUP_H * scale), scale)
+  local area = math.max(size.y - 170, 40)
+  if settings.view3D then
+    local sinE, cosE = math.sin(VIEW_ELEV), math.cos(VIEW_ELEV)
+    local above = CUP_H * cosE + R_TOP * sinE
+    local scale = math.min((size.x - 40) / (2 * R_TOP), area / (above + R_BOT * sinE))
+    drawCup3D(vec2(size.x / 2, 30 + above * scale), scale)
+  else
+    local scale = math.min((size.x - 40) / (2 * R_TOP), area / CUP_H)
+    drawCup(vec2(size.x / 2, 30 + CUP_H * scale), scale)
+  end
 
-  local top = 40 + CUP_H * scale
+  local top = 40 + area
   drawGauge(vec2(size.x - 50, top + 45), 35)
 
   ui.setCursor(vec2(12, top + 8))
@@ -212,7 +303,8 @@ function script.windowMain(dt)
   local car = ac.getCar(0)
   if car and not sim.isPaused and not gameOver then
     local a = car.acceleration
-    local ax = a.x * (settings.invertX and -1 or 1)
+    -- AC reports lateral G with the opposite sign to our x = car right convention.
+    local ax = -a.x * (settings.invertX and -1 or 1)
     local az = a.z * (settings.invertZ and -1 or 1)
     local steps = math.max(1, math.ceil(dt / SUBSTEP))
     for _ = 1, steps do physicsStep(dt / steps, ax, az) end
@@ -227,6 +319,7 @@ function script.windowSettings(dt)
   if changed then settings.freeboardMm = v end
   v, changed = ui.slider('##damping', settings.damping, 0.01, 0.3, 'Slosh damping: %.2f')
   if changed then settings.damping = v end
+  if ui.checkbox('3D view', settings.view3D) then settings.view3D = not settings.view3D end
   if ui.checkbox('Bunta mode (one spill ends the run)', settings.buntaMode) then
     settings.buntaMode = not settings.buntaMode
   end
