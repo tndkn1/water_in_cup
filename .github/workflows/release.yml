@@ -28,6 +28,8 @@ jobs:
           cp -r apps dist/stage/
           cp LICENSE dist/stage/apps/lua/WaterCup/
           (cd dist/stage && zip -r "../WaterCup-${{ steps.v.outputs.version }}.zip" apps)
+          # Version-less copy so releases/latest/download/WaterCup.zip always points at the newest build
+          cp "dist/WaterCup-${{ steps.v.outputs.version }}.zip" dist/WaterCup.zip
 
       - name: Publish release
         env:
@@ -35,7 +37,7 @@ jobs:
           V: ${{ steps.v.outputs.version }}
         run: |
           if gh release view "v$V" >/dev/null 2>&1; then
-            gh release upload "v$V" "dist/WaterCup-$V.zip" --clobber
+            gh release upload "v$V" "dist/WaterCup-$V.zip" dist/WaterCup.zip --clobber
           else
-            gh release create "v$V" "dist/WaterCup-$V.zip" --title "Water Cup v$V" --generate-notes
+            gh release create "v$V" "dist/WaterCup-$V.zip" dist/WaterCup.zip --title "Water Cup v$V" --generate-notes
           fi

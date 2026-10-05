@@ -6,6 +6,14 @@
 A paper cup full of water sits in your cup holder — can you drive without spilling it?
 A CSP Lua app for Assetto Corsa that recreates the famous mountain-pass tofu-delivery training.
 
+## ダウンロード / Download
+
+**[⬇ WaterCup.zip（最新版 / latest）](https://github.com/tndkn1/water_in_cup/releases/latest/download/WaterCup.zip)**
+
+ダウンロードした zip を Content Manager にドラッグ＆ドロップするだけでインストールできます。過去のバージョンは [Releases](https://github.com/tndkn1/water_in_cup/releases) から。
+
+Just drag and drop the downloaded zip onto Content Manager to install. Older versions are on the [Releases](https://github.com/tndkn1/water_in_cup/releases) page.
+
 ## 特徴 / Features
 
 **日本語**
@@ -43,7 +51,7 @@ A CSP Lua app for Assetto Corsa that recreates the famous mountain-pass tofu-del
 
 Content Manager を使う場合（おすすめ）:
 
-1. [Releases](https://github.com/tndkn1/water_in_cup/releases/latest) から `WaterCup-x.y.z.zip` をダウンロード
+1. 上の「ダウンロード」から `WaterCup.zip` をダウンロード
 2. zip を Content Manager のウィンドウにドラッグ＆ドロップし、「Install」を押す
 3. ゲーム内で右側のアプリバーから **Water Cup** を開く
 
@@ -55,7 +63,7 @@ Content Manager を使う場合（おすすめ）:
 
 With Content Manager (recommended):
 
-1. Download `WaterCup-x.y.z.zip` from [Releases](https://github.com/tndkn1/water_in_cup/releases/latest)
+1. Download `WaterCup.zip` from the Download section above
 2. Drag and drop the zip onto the Content Manager window and press "Install"
 3. In game, open **Water Cup** from the app bar on the right
 
