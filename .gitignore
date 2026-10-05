@@ -2,3 +2,4 @@
 *.log
 Thumbs.db
 desktop.ini
+dist/

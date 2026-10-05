@@ -1,0 +1,41 @@
+name: Release
+
+# Builds a Content Manager drag-and-drop zip and publishes it as a GitHub Release
+# named after VERSION in manifest.ini. Pushing again with the same VERSION
+# replaces the zip in that release.
+on:
+  push:
+    branches: [main]
+    paths: ['apps/**', 'LICENSE', '.github/workflows/release.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version
+        id: v
+        run: echo "version=$(grep -oP '^VERSION\s*=\s*\K\S+' apps/lua/WaterCup/manifest.ini)" >> "$GITHUB_OUTPUT"
+
+      - name: Build zip
+        run: |
+          mkdir -p dist/stage
+          cp -r apps dist/stage/
+          cp LICENSE dist/stage/apps/lua/WaterCup/
+          (cd dist/stage && zip -r "../WaterCup-${{ steps.v.outputs.version }}.zip" apps)
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+        run: |
+          if gh release view "v$V" >/dev/null 2>&1; then
+            gh release upload "v$V" "dist/WaterCup-$V.zip" --clobber
+          else
+            gh release create "v$V" "dist/WaterCup-$V.zip" --title "Water Cup v$V" --generate-notes
+          fi

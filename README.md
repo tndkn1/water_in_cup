@@ -41,17 +41,35 @@ A CSP Lua app for Assetto Corsa that recreates the famous mountain-pass tofu-del
 
 **日本語**
 
-1. このリポジトリの `apps` フォルダを Assetto Corsa のインストールフォルダ
-   （例: `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`）にコピー
-   → `assettocorsa\apps\lua\WaterCup\` ができれば OK
-2. ゲーム内で右側のアプリバーから **Water Cup** を開く
+Content Manager を使う場合（おすすめ）:
+
+1. [Releases](https://github.com/tndkn1/water_in_cup/releases/latest) から `WaterCup-x.y.z.zip` をダウンロード
+2. zip を Content Manager のウィンドウにドラッグ＆ドロップし、「Install」を押す
+3. ゲーム内で右側のアプリバーから **Water Cup** を開く
+
+手動の場合: zip の中の `apps` フォルダを Assetto Corsa のインストールフォルダ
+（例: `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`）にコピーし、
+`assettocorsa\apps\lua\WaterCup\` ができれば OK です。
 
 **English**
 
-1. Copy the `apps` folder of this repository into your Assetto Corsa install folder
-   (e.g. `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`)
-   → you should end up with `assettocorsa\apps\lua\WaterCup\`
-2. In game, open **Water Cup** from the app bar on the right
+With Content Manager (recommended):
+
+1. Download `WaterCup-x.y.z.zip` from [Releases](https://github.com/tndkn1/water_in_cup/releases/latest)
+2. Drag and drop the zip onto the Content Manager window and press "Install"
+3. In game, open **Water Cup** from the app bar on the right
+
+Manual install: copy the `apps` folder from the zip into your Assetto Corsa install folder
+(e.g. `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`)
+so that you end up with `assettocorsa\apps\lua\WaterCup\`.
+
+## 開発者向け / For developers
+
+`apps/` 以下を変更して `main` に push すると、GitHub Actions が zip を作って Releases に公開します（バージョンは `manifest.ini` の `VERSION`）。
+手元で zip を作るときは `pwsh ./build.ps1` を実行すると `dist/` に出力されます。
+
+Pushing changes under `apps/` to `main` makes GitHub Actions build the zip and publish it to Releases (versioned by `VERSION` in `manifest.ini`).
+To build locally, run `pwsh ./build.ps1`; the zip is written to `dist/`.
 
 ## 使い方 / Usage
 
