@@ -55,6 +55,8 @@ Content Manager を使う場合（おすすめ）:
 2. zip を Content Manager のウィンドウにドラッグ＆ドロップし、「Install」を押す
 3. ゲーム内で右側のアプリバーから **Water Cup** を開く
 
+   <img src="docs/images/launch-app.png" alt="アプリ一覧から Water Cup を選んで起動する画面" width="300">
+
 手動の場合: zip の中の `apps` フォルダを Assetto Corsa のインストールフォルダ
 （例: `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`）にコピーし、
 `assettocorsa\apps\lua\WaterCup\` ができれば OK です。
@@ -65,7 +67,7 @@ With Content Manager (recommended):
 
 1. Download `WaterCup.zip` from the Download section above
 2. Drag and drop the zip onto the Content Manager window and press "Install"
-3. In game, open **Water Cup** from the app bar on the right
+3. In game, open **Water Cup** from the app bar on the right (see the screenshot above)
 
 Manual install: copy the `apps` folder from the zip into your Assetto Corsa install folder
 (e.g. `C:\Program Files (x86)\Steam\steamapps\common\assettocorsa`)
