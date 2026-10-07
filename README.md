@@ -1,7 +1,8 @@
-# Water Cup — Assetto Corsa app
+# Water Cup — Assetto Corsa（アセットコルサ）app
 
 カップホルダーに水を入れた紙コップを置いて、こぼさずに走れるか。
-あの峠の豆腐屋の修行を Assetto Corsa で再現する CSP Lua アプリです。
+あの峠の豆腐屋の修行を Assetto Corsa（アセットコルサ）で再現する、CSP（Custom Shaders Patch）用の Lua アプリ・mod です。
+コンテンツマネージャー（Content Manager）に zip をドラッグ＆ドロップするだけでインストールできます。
 
 A paper cup full of water sits in your cup holder — can you drive without spilling it?
 A CSP Lua app for Assetto Corsa that recreates the famous mountain-pass tofu-delivery training.
