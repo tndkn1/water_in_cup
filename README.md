@@ -42,7 +42,7 @@ Just drag and drop the downloaded zip onto Content Manager to install. Older ver
 
 ## 参考動画 / Reference video
 
-- https://www.youtube.com/live/rH3_DwHWyYc
+- https://www.youtube.com/watch?v=DKCH9-EGePg
 
 ## 動作環境 / Requirements
 
