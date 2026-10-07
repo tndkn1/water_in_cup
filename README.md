@@ -6,6 +6,10 @@
 A paper cup full of water sits in your cup holder — can you drive without spilling it?
 A CSP Lua app for Assetto Corsa that recreates the famous mountain-pass tofu-delivery training.
 
+<img src="docs/images/screenshot-3d.png" alt="Water Cup の 3D 表示の画面 / Water Cup in 3D view" width="640">
+
+*走行中の画面（3D 表示）/ In-game screenshot (3D view)*
+
 ## ダウンロード / Download
 
 **[⬇ WaterCup.zip（最新版 / latest）](https://github.com/tndkn1/water_in_cup/releases/latest/download/WaterCup.zip)**
