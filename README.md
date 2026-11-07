@@ -104,6 +104,48 @@ To build locally, run `pwsh ./build.ps1`; the zip is written to `dist/`.
 - The cup is refilled automatically when you arrive in your pit box (turn off with `Auto refill in pits`).
 - If the water moves the wrong way (e.g. it shifts left in a left-hand corner), turn on `Invert lateral axis`.
 
+## Assetto Corsa EVO 版（試作）/ Assetto Corsa EVO version (experimental)
+
+**[⬇ WaterCupEVO.zip](https://github.com/tndkn1/water_in_cup/releases/download/evo-v0.1.0/WaterCupEVO.zip)**
+
+**日本語**
+
+EVO では CSP の Lua アプリが動かないため、ゲームの共有メモリを読む**外部オーバーレイアプリ**として作っています。水の物理計算は CSP 版と同じです。
+
+1. zip を展開して `WaterCupEVO.exe` を起動（インストール不要）
+2. EVO を **ボーダーレス** または **ウィンドウモード** で起動（排他フルスクリーンだとオーバーレイが上に表示されません）
+3. Water Cup のウィンドウが常に最前面に出るので、好きな位置に置いて走る
+
+- ドラッグで移動、**右クリックで設定メニュー**、ダブルクリックで水を入れ直し、Esc で終了
+- ピットボックスに戻ると自動で水をリフィル（右クリックメニューで OFF 可）
+- 設定は `%APPDATA%\WaterCupEVO\settings.json` に保存されます
+- `WaterCupEVO.exe --demo` でゲームなしの動作確認ができます
+- 水の動く向きが逆なら、右クリックメニューの `Invert lateral axis` / `Invert longitudinal axis` を ON に
+- VR では表示されません。未署名の exe のため、Windows SmartScreen の警告が出たら「詳細情報」→「実行」で起動してください
+
+Python がある場合は `python evo/water_cup_evo.py` でも動きます（標準ライブラリのみ使用）。
+
+**English**
+
+CSP Lua apps don't run in EVO, so this version is an **external overlay app** that reads the game's shared memory. The water physics are the same as the CSP app.
+
+1. Unzip and run `WaterCupEVO.exe` (no install needed)
+2. Run EVO in **borderless** or **windowed** mode (exclusive fullscreen hides the overlay)
+3. The Water Cup window stays on top; place it wherever you like and drive
+
+- Drag to move, **right-click for settings**, double-click to refill, Esc to quit
+- The cup is refilled automatically in your pit box (can be turned off in the right-click menu)
+- Settings are saved to `%APPDATA%\WaterCupEVO\settings.json`
+- Run `WaterCupEVO.exe --demo` to try it without the game
+- If the water moves the wrong way, turn on `Invert lateral axis` / `Invert longitudinal axis` in the right-click menu
+- Not visible in VR. The exe is unsigned; if Windows SmartScreen warns you, choose "More info" → "Run anyway"
+
+With Python installed you can also run `python evo/water_cup_evo.py` (standard library only).
+
+開発者向け: `evo/` 以下を変更して `main` に push すると、`evo/water_cup_evo.py` の `VERSION` で `evo-v<version>` のリリースが作られます。手元では `pwsh ./evo/build.ps1`。
+
+For developers: pushing changes under `evo/` to `main` publishes an `evo-v<version>` release (versioned by `VERSION` in `evo/water_cup_evo.py`). To build locally, run `pwsh ./evo/build.ps1`.
+
 ## 免責 / Disclaimer
 
 非公式のファンメイド作品です。原作・出版社・Kunos Simulazioni とは一切関係ありません。

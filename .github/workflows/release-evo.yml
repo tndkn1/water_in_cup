@@ -1,0 +1,47 @@
+name: Release EVO
+
+# Builds WaterCupEVO.exe (Assetto Corsa EVO overlay) and publishes it as a GitHub Release
+# named after VERSION in evo/water_cup_evo.py. Pushing again with the same VERSION
+# replaces the zip in that release. EVO releases are never marked "latest", so
+# releases/latest/download/WaterCup.zip keeps pointing at the CSP app.
+on:
+  push:
+    branches: [main]
+    paths: ['evo/**', 'LICENSE', '.github/workflows/release-evo.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      - name: Build zip
+        id: v
+        shell: pwsh
+        run: |
+          ./evo/build.ps1
+          $v = (Select-String -Path evo/water_cup_evo.py -Pattern "^VERSION = '(.+)'").Matches[0].Groups[1].Value
+          # Version-less copy so the README can link to a stable file name inside the release
+          Copy-Item "dist/WaterCupEVO-$v.zip" dist/WaterCupEVO.zip
+          "version=$v" >> $env:GITHUB_OUTPUT
+
+      - name: Publish release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+        run: |
+          if gh release view "evo-v$V" >/dev/null 2>&1; then
+            gh release upload "evo-v$V" "dist/WaterCupEVO-$V.zip" dist/WaterCupEVO.zip --clobber
+          else
+            gh release create "evo-v$V" "dist/WaterCupEVO-$V.zip" dist/WaterCupEVO.zip \
+              --title "Water Cup EVO v$V" --latest=false --generate-notes
+          fi
