@@ -29,7 +29,8 @@ Just drag and drop the downloaded zip onto Content Manager to install. Older ver
 - 紙コップ表示は **3D**（運転席から見下ろした視点、前後・左右の傾きを表示／デフォルト）と **2D**（側面図）を設定で切り替え
 - 上面ゲージ（円の外に点が出るとこぼれる）
 - こぼれた量 (ml)、こぼした回数、走行距離を表示
-- 設定: 3D/2D 表示、水面とフチの余裕 (mm)、揺れの減衰、**Bunta モード**（1 回こぼしたら終了）、軸反転
+- ピットに戻ると自動で水をリフィル（設定で OFF 可）
+- 設定: 3D/2D 表示、水面とフチの余裕 (mm)、揺れの減衰、**Bunta モード**（1 回こぼしたら終了）、ピットで自動リフィル、軸反転
 
 **English**
 
@@ -39,7 +40,8 @@ Just drag and drop the downloaded zip onto Content Manager to install. Older ver
 - Cup view can be switched in settings between **3D** (looking down from the driver's seat, shows both longitudinal and lateral tilt; default) and **2D** (side view)
 - Top-view gauge (water spills when the dot leaves the circle)
 - Shows spilled amount (ml), number of spills, and distance driven
-- Settings: 3D/2D view, gap between water and rim (mm), slosh damping, **Bunta mode** (one spill ends the run), axis inversion
+- The cup is refilled automatically when you return to the pits (can be turned off)
+- Settings: 3D/2D view, gap between water and rim (mm), slosh damping, **Bunta mode** (one spill ends the run), auto refill in pits, axis inversion
 
 ## 参考動画 / Reference video
 
@@ -92,12 +94,14 @@ To build locally, run `pwsh ./build.ps1`; the zip is written to `dist/`.
 
 - 走るだけ。上面ゲージの点が外側の円に触れるとこぼれます。
 - ウィンドウの歯車アイコンから設定、`Refill cup / reset` で水を入れ直し。
+- ピットボックスに戻ると自動で水が入れ直されます（`Auto refill in pits` で OFF にできます）。
 - 左コーナーで水が左に寄るなど向きが逆に見える場合は `Invert lateral axis` を ON に。
 
 **English**
 
 - Just drive. Water spills when the dot on the top-view gauge touches the outer circle.
 - Open settings with the gear icon on the window; use `Refill cup / reset` to refill the cup.
+- The cup is refilled automatically when you arrive in your pit box (turn off with `Auto refill in pits`).
 - If the water moves the wrong way (e.g. it shifts left in a left-hand corner), turn on `Invert lateral axis`.
 
 ## 免責 / Disclaimer

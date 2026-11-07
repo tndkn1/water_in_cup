@@ -21,7 +21,8 @@ local settings = ac.storage({
   invertX = false,
   invertZ = false,
   buntaMode = false, -- a single spill ends the run
-  view3D = true
+  view3D = true,
+  autoRefill = true  -- refill the cup when the car arrives in its pit box
 })
 
 local VIEW_ELEV = math.rad(35) -- 3D view: camera pitch, looking forward and down like the driver
@@ -31,6 +32,7 @@ local level, slope, slopeVel
 local spilledMl, spillEvents, distance
 local spilling, flash, gameOver
 local particles = {}
+local wasInPit
 
 local function clamp(x, a, b) return x < a and a or (x > b and b or x) end
 
@@ -301,6 +303,10 @@ function script.windowMain(dt)
   dt = math.min(dt, 0.1)
   local sim = ac.getSim()
   local car = ac.getCar(0)
+  if car then
+    if settings.autoRefill and car.isInPit and wasInPit == false then reset() end
+    wasInPit = car.isInPit
+  end
   if car and not sim.isPaused and not gameOver then
     local a = car.acceleration
     -- AC reports lateral G with the opposite sign to our x = car right convention.
@@ -323,6 +329,7 @@ function script.windowSettings(dt)
   if ui.checkbox('Bunta mode (one spill ends the run)', settings.buntaMode) then
     settings.buntaMode = not settings.buntaMode
   end
+  if ui.checkbox('Auto refill in pits', settings.autoRefill) then settings.autoRefill = not settings.autoRefill end
   if ui.checkbox('Invert lateral axis', settings.invertX) then settings.invertX = not settings.invertX end
   if ui.checkbox('Invert longitudinal axis', settings.invertZ) then settings.invertZ = not settings.invertZ end
   ui.offsetCursorY(8)
